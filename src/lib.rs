@@ -77,8 +77,9 @@ fn get_binary_item(_py: Python, name: String) -> PyResult<Bound<PyBytes>> {
 }
 
 #[pyfunction]
-fn set_binary_item(_py: Python, name: String, item: Vec<u8>) -> PyResult<()> {
-    _set_binary_item(name, item)
+fn set_binary_item(_py: Python, name: String, item: &PyBytes) -> PyResult<()> {
+    let item_as_bytes = item.as_bytes().to_vec();
+    _set_binary_item(name, item_as_bytes)
 }
 
 #[pyfunction]
