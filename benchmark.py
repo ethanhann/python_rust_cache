@@ -26,7 +26,8 @@ def main():
         # Load the JSON data from the file
         big_str = file.read()
 
-    pickled_big_str = pickle.dumps(big_str)
+    # pickled_big_str = pickle.dumps(big_str)
+    big_bytes = bytes(big_str, "utf-8")
 
     # This was... Set 3ms / Get 9ms
     print("Set/Get Big String")
@@ -44,8 +45,8 @@ for _ in range(1):
     profiler = profile.Profile()
     profiler.runctx("""
 for _ in range(1):
-    set_binary_item("pickled_big_str", pickled_big_str)
-    get_binary_item("pickled_big_str")
+    set_binary_item("big_bytes", big_bytes)
+    get_binary_item("big_bytes")
     print_cache_size()
     """, globals(), locals())
     profiler.print_stats()
@@ -66,8 +67,8 @@ for _ in range(1):
     profiler = profile.Profile()
     profiler.runctx("""
 for _ in range(1):
-    set_binary_item_compressed("pickled_big_str", pickled_big_str)
-    get_binary_item_decompressed("pickled_big_str")
+    set_binary_item_compressed("big_bytes", big_bytes)
+    get_binary_item_decompressed("big_bytes")
     print_cache_size()
     """, globals(), locals())
     profiler.print_stats()

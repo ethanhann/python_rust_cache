@@ -78,16 +78,16 @@ fn set_binary_item(_py: Python, name: String, item: Vec<u8>) -> PyResult<()> {
 }
 
 #[pyfunction]
-fn set_string_item(_py: Python, name: String, item: String) -> PyResult<()> {
-    _set_binary_item(name, item.as_bytes().to_vec())
-}
-
-#[pyfunction]
 fn get_string_item(_py: Python, name: String) -> PyResult<String> {
     let maybe_bytes_data = _get_binary_item(&name);
     let bytes_data: Vec<u8> = maybe_bytes_data.unwrap_or_else(Vec::new);
     let string_data = String::from_utf8(bytes_data).expect("Invalid UTF-8 sequence");
     Ok(string_data)
+}
+
+#[pyfunction]
+fn set_string_item(_py: Python, name: String, item: String) -> PyResult<()> {
+    _set_binary_item(name, item.as_bytes().to_vec())
 }
 
 /// Python API with compression

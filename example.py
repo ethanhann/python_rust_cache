@@ -11,6 +11,7 @@ def print_size(val):
     size_in_bytes = sys.getsizeof(val)
     print(f"+++Size in bytes: {size_in_bytes}")
 
+
 def main():
     """
     Need to evaluate 3 test cases:
@@ -38,8 +39,15 @@ def main():
         }
     }
     json_str = json.dumps(data)
-    pickled_big_str = pickle.dumps(json_str)
+    # pickled_big_str = pickle.dumps(json_str)
+    big_bytes = bytes(json_str, "utf-8")
     key = "foo1"
+
+    # Original Data
+    print("\njson_str: ")
+    print(json_str)
+    print("\npickled_big_str: ")
+    print(big_bytes)
 
     print("\nString Get/Set...")
     set_string_item(key, json_str)
@@ -49,9 +57,9 @@ def main():
     print(result)
 
     print("\nBytes Get/Set...")
-    set_binary_item(key, pickled_big_str)
+    set_binary_item(key, big_bytes)
     result = get_binary_item(key)
-    print_size(pickled_big_str)
+    print_size(big_bytes)
     print_size(result)
     print(result)
 
@@ -62,7 +70,7 @@ def main():
     print(result)
 
     print("\nCompressed Bytes Get/Set...")
-    set_binary_item_compressed(key, pickled_big_str)
+    set_binary_item_compressed(key, big_bytes)
     result = get_binary_item_decompressed(key)
     print_size(result)
     print(result)
