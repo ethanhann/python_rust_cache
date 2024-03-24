@@ -6,6 +6,7 @@ use flate2::write::ZlibEncoder;
 use flate2::bufread::ZlibDecoder;
 use lazy_static::lazy_static;
 use pyo3::prelude::*;
+use pyo3::types::PyBytes;
 
 lazy_static! {
     static ref CACHE: Mutex<HashMap<String, Vec<u8>>> = Mutex::new({
@@ -68,8 +69,11 @@ fn print_cache_size() {
 
 /// Python API no compression
 #[pyfunction]
-fn get_binary_item(_py: Python, name: String) -> PyResult<Option<Vec<u8>>> {
-    Ok(_get_binary_item(&name))
+fn get_binary_item(_py: Python, name: String) -> PyResult<Bound<PyBytes>> {
+    let result = _get_binary_item(&name);
+    let buf = result.unwrap_or_else(Vec::new);
+    let bound_bytes = PyBytes::new_bound(_py, &buf);
+    Ok(bound_bytes)
 }
 
 #[pyfunction]
@@ -92,13 +96,14 @@ fn set_string_item(_py: Python, name: String, item: String) -> PyResult<()> {
 
 /// Python API with compression
 #[pyfunction]
-fn get_binary_item_decompressed(_py: Python, name: String) -> PyResult<Option<Vec<u8>>> {
+fn get_binary_item_decompressed(_py: Python, name: String) -> PyResult<Bound<PyBytes>> {
     let item = _get_binary_item(&name);
     // Decompress
     let buf = item.unwrap_or_else(Vec::new);
     let decompressed_item = decompress(buf.as_slice());
     // Return item
-    Ok(Some(decompressed_item))
+    let bound_bytes = PyBytes::new_bound(_py, &decompressed_item);
+    Ok(bound_bytes)
 }
 
 #[pyfunction]

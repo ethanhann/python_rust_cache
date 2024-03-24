@@ -41,7 +41,7 @@ for _ in range(1):
     profiler.print_stats()
 
     # This was... Set ? / Get ?
-    print("Set/Get Big Python Pickled Binary")
+    print("Set/Get Big Python Binary")
     profiler = profile.Profile()
     profiler.runctx("""
 for _ in range(1):
@@ -63,7 +63,7 @@ for _ in range(1):
     profiler.print_stats()
 
     # This was... Set ? / Get ?
-    print("Set/Get Compressed Python Pickled Binary")
+    print("Set/Get Compressed Python Binary")
     profiler = profile.Profile()
     profiler.runctx("""
 for _ in range(1):
