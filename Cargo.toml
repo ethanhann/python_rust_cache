@@ -20,3 +20,4 @@ pyo3 = { version = "0.21.0-beta.0", features = ["extension-module"] }
 lazy_static = "1.4"
 flate2 = "1.0"
 serde_cbor = "0.11.2"
+zstd = "0.13.0"

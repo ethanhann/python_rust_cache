@@ -1,6 +1,4 @@
-# import my_python_module.crusty as rust_lib
 import json
-import pickle
 import sys
 
 from crusty import set_string_item, get_string_item, set_binary_item, get_binary_item, get_string_item_decompressed, \
@@ -14,12 +12,7 @@ def print_size(val):
 
 def main():
     """
-    Need to evaluate 3 test cases:
-    1. set/get of PyString
-    2. set/get of python pickled binary data
-    3. set/get of rust pickled binary data
-    ... and maybe some other cases involving JSON serialization.
-    :return:
+
     """
     data = {
         "Alice": {
@@ -54,6 +47,7 @@ def main():
     result = get_string_item(key)
     print_size(json_str)
     print_size(result)
+    print_cache_size()
     print(result)
 
     print("\nBytes Get/Set...")
@@ -61,20 +55,23 @@ def main():
     result = get_binary_item(key)
     print_size(big_bytes)
     print_size(result)
+    print_cache_size()
     print(result)
 
     print("\nCompressed String Get/Set...")
     set_string_item_compressed(key, json_str)
     result = get_string_item_decompressed(key)
     print_size(result)
+    print_cache_size()
     print(result)
 
     print("\nCompressed Bytes Get/Set...")
     set_binary_item_compressed(key, big_bytes)
     result = get_binary_item_decompressed(key)
     print_size(result)
+    print_cache_size()
     print(result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
