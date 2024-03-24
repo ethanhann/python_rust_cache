@@ -2,7 +2,8 @@
 import json
 import pickle
 
-from crusty import set_string_item, get_string_item, set_binary_item, get_binary_item
+from crusty import set_string_item, get_string_item, set_binary_item, get_binary_item, get_string_item_decompressed, \
+    set_string_item_compressed, get_binary_item_decompressed, set_binary_item_compressed, print_cache_size
 
 
 def main():
@@ -31,16 +32,31 @@ def main():
             "email": "charlie@example.com"
         }
     }
-    print("String Get/Set...")
     json_str = json.dumps(data)
-    set_string_item("foo", json_str)
-    result = get_string_item("foo")
+    pickled_big_str = pickle.dumps(json_str)
+
+    print("String Get/Set...")
+    key = "foo1"
+    set_string_item(key, json_str)
+    result = get_string_item(key)
     print(result)
 
     print("Bytes Get/Set...")
-    pickled_big_str = pickle.dumps(json_str)
-    set_binary_item("bytes", pickled_big_str)
-    result = get_binary_item("bytes")
+    key = "foo2"
+    set_binary_item(key, pickled_big_str)
+    result = get_binary_item(key)
+    print(result)
+
+    print("Compressed String Get/Set...")
+    key = "foo3"
+    set_string_item_compressed(key, json_str)
+    result = get_string_item_decompressed(key)
+    print(result)
+
+    print("Compressed Bytes Get/Set...")
+    key = "foo4"
+    set_binary_item_compressed(key, pickled_big_str)
+    result = get_binary_item_decompressed(key)
     print(result)
 
 

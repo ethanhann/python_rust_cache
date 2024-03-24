@@ -3,7 +3,8 @@ import json
 import profile
 import pickle
 
-from crusty import set_string_item, get_string_item, set_binary_item, get_binary_item
+from crusty import set_string_item, get_string_item, set_binary_item, get_binary_item, get_string_item_decompressed, \
+    set_string_item_compressed, get_binary_item_decompressed, set_binary_item_compressed, print_cache_size
 
 
 def main():
@@ -12,9 +13,9 @@ def main():
     1. set/get of PyString
         Set 3ms / Get 10ms
     2. set/get of python string / rust pickled binary data
-        Set 1.384 / Get 0.534
+        Set 3ms / Get 9ms
     3. set/get of python pickled binary data / rust Vec<u8>
-        Similar to case 2
+        Set 1.384 / Get 0.534
 
     Conclusion (so far)... passing bytes through the function boundary is slow.
 
@@ -24,7 +25,6 @@ def main():
     with open("./large-file.json", 'r') as file:
         # Load the JSON data from the file
         big_str = file.read()
-        # big_json = json.load(file)
 
     pickled_big_str = pickle.dumps(big_str)
 
@@ -32,19 +32,43 @@ def main():
     print("Set/Get Big String")
     profiler = profile.Profile()
     profiler.runctx("""
-for _ in range(200):
+for _ in range(1):
     set_string_item("big_str", big_str)
     get_string_item("big_str")
+    print_cache_size()
     """, globals(), locals())
     profiler.print_stats()
 
-    profiler = profile.Profile()
     # This was... Set ? / Get ?
     print("Set/Get Big Python Pickled Binary")
+    profiler = profile.Profile()
     profiler.runctx("""
-for _ in range(10):
+for _ in range(1):
     set_binary_item("pickled_big_str", pickled_big_str)
     get_binary_item("pickled_big_str")
+    print_cache_size()
+    """, globals(), locals())
+    profiler.print_stats()
+
+    # This was... Set ? / Get ?
+    print("Set/Get Compressed String")
+    profiler = profile.Profile()
+    profiler.runctx("""
+for _ in range(1):
+    set_string_item_compressed("big_str", big_str)
+    get_string_item_decompressed("big_str")
+    print_cache_size()
+    """, globals(), locals())
+    profiler.print_stats()
+
+    # This was... Set ? / Get ?
+    print("Set/Get Compressed Python Pickled Binary")
+    profiler = profile.Profile()
+    profiler.runctx("""
+for _ in range(1):
+    set_binary_item_compressed("pickled_big_str", pickled_big_str)
+    get_binary_item_decompressed("pickled_big_str")
+    print_cache_size()
     """, globals(), locals())
     profiler.print_stats()
 
