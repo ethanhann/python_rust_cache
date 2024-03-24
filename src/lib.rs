@@ -1,17 +1,39 @@
 use pyo3::prelude::*;
-//use core::ops::Bound;
+use std::collections::HashMap;
+use lazy_static::lazy_static;
+use std::sync::{Mutex};
 
-/// Formats the sum of two numbers as string.
-#[pyfunction]
-fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
-    Ok((a + b).to_string())
+lazy_static! {
+    static ref CACHE: Mutex<HashMap<String, String>> = Mutex::new({
+        let mut map = HashMap::new();
+        map
+    });
 }
 
-/// A Python module implemented in Rust. The name of this function must match
-/// the `lib.name` setting in the `Cargo.toml`, else Python will not be able to
-/// import the module.
+fn _get_item(name: &str) -> String {
+    let cache = CACHE.lock().unwrap();
+    cache.get(name).cloned().unwrap_or_else(|| String::from("Item not found"))
+}
+
+#[pyfunction]
+fn get_item(_py: Python, name: String) -> PyResult<String> {
+    Ok(_get_item(&name))
+}
+
+fn _set_item(name: String, item: String) -> PyResult<()> {
+    let mut cache = CACHE.lock().map_err(|e| PyErr::new::<pyo3::exceptions::PyRuntimeError, _>(format!("Mutex error: {}", e)))?;
+    cache.insert(name, item);
+    Ok(())
+}
+
+#[pyfunction]
+fn set_item(_py: Python, name: String, item: String) -> PyResult<()> {
+    _set_item(name, item)
+}
+
 #[pymodule]
 fn crusty(m: &Bound<'_, PyModule>) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
+    m.add_function(wrap_pyfunction!(get_item, m)?)?;
+    m.add_function(wrap_pyfunction!(set_item, m)?)?;
     Ok(())
 }
