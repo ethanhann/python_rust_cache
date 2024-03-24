@@ -1,10 +1,15 @@
 # import my_python_module.crusty as rust_lib
 import json
 import pickle
+import sys
 
 from crusty import set_string_item, get_string_item, set_binary_item, get_binary_item, get_string_item_decompressed, \
     set_string_item_compressed, get_binary_item_decompressed, set_binary_item_compressed, print_cache_size
 
+
+def print_size(val):
+    size_in_bytes = sys.getsizeof(val)
+    print(f"+++Size in bytes: {size_in_bytes}")
 
 def main():
     """
@@ -34,29 +39,32 @@ def main():
     }
     json_str = json.dumps(data)
     pickled_big_str = pickle.dumps(json_str)
-
-    print("String Get/Set...")
     key = "foo1"
+
+    print("\nString Get/Set...")
     set_string_item(key, json_str)
     result = get_string_item(key)
+    print_size(json_str)
+    print_size(result)
     print(result)
 
-    print("Bytes Get/Set...")
-    key = "foo2"
+    print("\nBytes Get/Set...")
     set_binary_item(key, pickled_big_str)
     result = get_binary_item(key)
+    print_size(pickled_big_str)
+    print_size(result)
     print(result)
 
-    print("Compressed String Get/Set...")
-    key = "foo3"
+    print("\nCompressed String Get/Set...")
     set_string_item_compressed(key, json_str)
     result = get_string_item_decompressed(key)
+    print_size(result)
     print(result)
 
-    print("Compressed Bytes Get/Set...")
-    key = "foo4"
+    print("\nCompressed Bytes Get/Set...")
     set_binary_item_compressed(key, pickled_big_str)
     result = get_binary_item_decompressed(key)
+    print_size(result)
     print(result)
 
 

@@ -115,7 +115,6 @@ fn get_string_item_decompressed(_py: Python, name: String) -> PyResult<String> {
     let maybe_bytes_data = _get_binary_item(&name);
     let bytes_data: Vec<u8> = maybe_bytes_data.unwrap_or_else(Vec::new);
     // Decompress
-    // let buf = item.unwrap_or_else(Vec::new);
     let decompressed_item = decompress(bytes_data.as_slice());
     let string_data = String::from_utf8(decompressed_item).expect("Invalid UTF-8 sequence");
     Ok(string_data)
@@ -124,7 +123,6 @@ fn get_string_item_decompressed(_py: Python, name: String) -> PyResult<String> {
 #[pyfunction]
 fn set_string_item_compressed(_py: Python, name: String, item: String) -> PyResult<()> {
     // Compress
-    // item.as_bytes().to_vec()
     let compressed_item = compress(item.as_bytes());
     _set_binary_item(name, compressed_item)
 }
@@ -132,7 +130,6 @@ fn set_string_item_compressed(_py: Python, name: String, item: String) -> PyResu
 #[pymodule]
 fn crusty(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // Profiling
-    // print_cache_size
     m.add_function(wrap_pyfunction!(print_cache_size, m)?)?;
     // Basic
     m.add_function(wrap_pyfunction!(get_string_item, m)?)?;
