@@ -1,4 +1,5 @@
-/target
+/.idea/
+/.venv/
 /Cargo.lock
-.venv/
-.idea/
+/target
+/benchmark_snapshots
