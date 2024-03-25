@@ -22,7 +22,7 @@ def main():
     :return:
     """
     print("Profiling...")
-    with open("./large-file.json", 'r') as file:
+    with open("../large-file.json", 'r') as file:
         # Load the JSON data from the file
         big_str = file.read()
 

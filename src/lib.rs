@@ -109,7 +109,7 @@ fn set_string_item_compressed(_py: Python, name: String, item: String) -> PyResu
 }
 
 #[pymodule]
-fn crusty(m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn python_rust_cache(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // Profiling
     m.add_function(wrap_pyfunction!(print_cache_size, m)?)?;
     // Basic

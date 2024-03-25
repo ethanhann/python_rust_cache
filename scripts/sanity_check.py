@@ -7,7 +7,7 @@ from crusty import set_string_item, get_string_item, set_binary_item, get_binary
 
 def print_size(val):
     size_in_bytes = sys.getsizeof(val)
-    print(f"+++Size in bytes: {size_in_bytes}")
+    print(f"+++ Size in {size_in_bytes} bytes")
 
 
 def main():
