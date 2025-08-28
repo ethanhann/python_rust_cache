@@ -51,3 +51,4 @@ Cargo.lock
 /target
 /benchmark_snapshots
 uv.lock
+__pycache__/
