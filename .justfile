@@ -5,12 +5,11 @@ list:
 
 build:
     maturin develop
-    pyo3-stubgen python_rust_cache ./
-    cat python_rust_cache_extra.pyi >> ./python_rust_cache.pyi
-
+    stubgen -m python_rust_cache -o stubs
 
 lint:
     cargo clippy
+    ruff check .
 
 sanity-check:
     maturin develop && python scripts/sanity_check.py

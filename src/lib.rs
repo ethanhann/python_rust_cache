@@ -1,5 +1,5 @@
-mod sync_cache;
-mod async_cache;
+pub mod sync_cache;
+pub mod async_cache;
 
 use lazy_static::lazy_static;
 use pyo3::prelude::*;

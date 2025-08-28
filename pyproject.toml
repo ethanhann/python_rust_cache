@@ -13,9 +13,16 @@ include = ["python_rust_cache.pyi", "py.typed"]
 dependencies = [
     "fastapi>=0.116.1",
     "maturin",
-    "pyo3-stubgen>=0.3.0",
+    "mypy>=1.17.1",
     "pytest>=8.4.1",
+    "ruff>=0.12.11",
     "semantic-version",
     "setuptools-rust",
     "uvicorn[standard]>=0.35.0",
 ]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+extend-exclude = ["target", "Cargo.*"]
+src = ["."]

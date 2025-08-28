@@ -1,10 +1,5 @@
 import profile
 
-from python_rust_cache import set_string_item, get_string_item, set_binary_item, get_binary_item, \
-    get_string_item_decompressed, set_string_item_compressed, get_binary_item_decompressed, set_binary_item_compressed, \
-    print_cache_size
-
-
 def main():
     print("Profiling...")
     with open("./large-file.json", 'r') as file:
