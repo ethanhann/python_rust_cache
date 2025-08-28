@@ -35,6 +35,11 @@ fn _set_binary_item(name: String, item: Vec<u8>) -> PyResult<()> {
 
 /// Python API
 #[pyfunction]
+fn version() -> &'static str {
+    env!("CARGO_PKG_VERSION")
+}
+
+#[pyfunction]
 fn print_cache_size() {
     // Acquire lock and clone the map
     let cache = CACHE.lock().unwrap();
@@ -112,6 +117,7 @@ fn set_string_item_compressed(_py: Python, name: String, item: String) -> PyResu
 fn python_rust_cache(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // Meta
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
+    m.add_function(wrap_pyfunction!(version, m)?)?;
     // Profiling
     m.add_function(wrap_pyfunction!(print_cache_size, m)?)?;
     // Basic

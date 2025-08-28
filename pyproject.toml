@@ -8,10 +8,12 @@ version = "0.1.0"
 description = "In-memory cache for python, written in rust."
 readme = "README.md"
 requires-python = ">=3.13"
+include = ["python_rust_cache.pyi", "py.typed"]
 
 dependencies = [
     "fastapi>=0.116.1",
     "maturin",
+    "pyo3-stubgen>=0.3.0",
     "pytest>=8.4.1",
     "semantic-version",
     "setuptools-rust",

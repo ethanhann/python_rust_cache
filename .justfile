@@ -1,7 +1,11 @@
 #!/usr/bin/env just --justfile
 
-release:
-    cargo build --release    
+list:
+    just -l
+
+build:
+    maturin develop
+    pyo3-stubgen python_rust_cache .
 
 lint:
     cargo clippy
