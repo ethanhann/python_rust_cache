@@ -17,10 +17,10 @@ name = "python_rust_cache"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.25.1", features = ["extension-module"] }
-lazy_static = "1.4"
-serde_cbor = "0.11.2"
-zstd = "0.13.0"
+pyo3 = { version = "~0.25.1", features = ["extension-module"] }
+lazy_static = "~1.5.0"
+serde_cbor = "~0.11.2"
+zstd = "~0.13.0"
 
 [package.metadata.pyo3]
 extension-module = true
