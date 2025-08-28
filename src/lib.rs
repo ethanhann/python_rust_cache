@@ -136,5 +136,9 @@ fn python_rust_cache(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(set_string_item_compressed, m)?)?;
     m.add_function(wrap_pyfunction!(get_binary_item_decompressed, m)?)?;
     m.add_function(wrap_pyfunction!(set_binary_item_compressed, m)?)?;
+    // Sync cache class
+    m.add_class::<crate::sync_cache::PyCache>()?;
+    // Async cache class
+    m.add_class::<crate::async_cache::PyAsyncCache>()?;
     Ok(())
 }
