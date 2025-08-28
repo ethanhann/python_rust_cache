@@ -6,9 +6,6 @@ release:
 lint:
   cargo clippy
 
-bin:
-  cargo run --bin bin -- arg1
-
 sanity-check:
 	maturin develop && python scripts/sanity_check.py
 

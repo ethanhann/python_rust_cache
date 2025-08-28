@@ -1,3 +1,0 @@
-maturin==1.5.1
-semantic-version==2.10.0
-setuptools-rust==1.9.0
