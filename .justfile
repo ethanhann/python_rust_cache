@@ -3,6 +3,9 @@
 list:
     just -l
 
+test:
+    PYTHONPATH=. pytest
+
 build:
     maturin develop
 
