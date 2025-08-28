@@ -1,3 +1,5 @@
+extern crate core;
+
 pub mod sync_cache;
 pub mod async_cache;
 

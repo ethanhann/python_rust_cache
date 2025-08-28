@@ -1,7 +1,7 @@
 use moka::sync::Cache;
 use pyo3::prelude::*;
-use std::time::Duration;
 use pyo3::types::PyBytes;
+use std::time::Duration;
 
 #[pyclass]
 pub struct PyCache {
@@ -29,5 +29,9 @@ impl PyCache {
 
     fn set(&self, key: String, value: &Bound<'_, PyBytes>) {
         self.inner.insert(key, value.as_bytes().to_vec());
+    }
+
+    fn len(&self) -> u64 {
+        self.inner.entry_count()
     }
 }

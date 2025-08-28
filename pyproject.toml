@@ -13,7 +13,6 @@ include = ["python_rust_cache.pyi", "py.typed"]
 dependencies = [
     "fastapi>=0.116.1",
     "maturin",
-    "mypy>=1.17.1",
     "pytest>=8.4.1",
     "ruff>=0.12.11",
     "semantic-version",

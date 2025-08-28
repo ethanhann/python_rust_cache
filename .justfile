@@ -5,7 +5,6 @@ list:
 
 build:
     maturin develop
-    stubgen -m python_rust_cache -o stubs
 
 lint:
     cargo clippy

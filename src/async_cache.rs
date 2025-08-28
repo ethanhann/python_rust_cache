@@ -45,4 +45,8 @@ impl PyAsyncCache {
             Python::with_gil(|py| Ok(py.None().into_any()))
         })
     }
+
+    fn len(&self) -> u64 {
+        self.inner.entry_count()
+    }
 }
