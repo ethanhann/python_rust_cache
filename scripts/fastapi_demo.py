@@ -44,7 +44,7 @@ def get_compressed_item_handler(key: str):
 
 @app.get("/set_binary/{key}/{value}")
 def set_binary_item_handler(key: str, value: str):
-    set_binary_item(key, value)
+    set_binary_item(key, value.encode("utf-8"))
     return {"key": key, "value": value}
 
 
@@ -55,7 +55,7 @@ def get_binary_item_handler(key: str):
 
 @app.get("/set_binary_compressed/{key}/{value}")
 def set_binary_compressed_item_handler(key: str, value: str):
-    set_binary_item_compressed(key, value)
+    set_binary_item_compressed(key, value.encode("utf-8"))
     return {"key": key, "value": value}
 
 
