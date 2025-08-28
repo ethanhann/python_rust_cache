@@ -25,4 +25,5 @@ def set_string_item(name, item):
 
 def set_string_item_compressed(name, item):
     ...
+# Variable Annotations
 __version__: str

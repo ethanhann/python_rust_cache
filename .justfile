@@ -5,8 +5,8 @@ list:
 
 build:
     maturin develop
-    pyo3-stubgen python_rust_cache .
-    echo "__version__: str" >> ./python_rust_cache.pyi
+    pyo3-stubgen python_rust_cache ./
+    cat python_rust_cache_extra.pyi >> ./python_rust_cache.pyi
 
 
 lint:
