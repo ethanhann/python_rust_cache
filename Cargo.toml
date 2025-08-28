@@ -1,7 +1,7 @@
 [package]
 name = "python_rust_cache"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [lib]
 # The name of the native library.
@@ -18,9 +18,12 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "~0.25.1", features = ["extension-module"] }
+pyo3-async-runtimes = { version = "~0.25.0", features = ["tokio-runtime"] }
 lazy_static = "~1.5.0"
 serde_cbor = "~0.11.2"
 zstd = "~0.13.0"
+moka = { version = "~0.12", features = ["future", "sync"] }
+tokio = { version = "~1", features = ["rt-multi-thread", "macros", "time"] }
 
 [package.metadata.pyo3]
 extension-module = true
