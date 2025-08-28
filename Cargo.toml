@@ -26,7 +26,6 @@ lazy_static = "~1.5.0"
 serde_cbor = "~0.11.2"
 zstd = "~0.13.0"
 moka = { version = "~0.12", features = ["future", "sync"] }
-tokio = { version = "~1", features = ["rt-multi-thread", "macros", "time"] }
 
 [package.metadata.pyo3]
 extension-module = true
