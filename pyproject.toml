@@ -1,0 +1,11 @@
+[project]
+name = "python-rust-cache"
+version = "0.1.0"
+description = "In-memory cache for python, written in rust."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "maturin",
+    "semantic-version",
+    "setuptools-rust",
+]
