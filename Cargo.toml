@@ -16,8 +16,11 @@ name = "python_rust_cache"
 # crate-type = ["cdylib", "rlib"]
 crate-type = ["cdylib"]
 
+[build-dependencies]
+pyo3-build-config = "~0.25.1"
+
 [dependencies]
-pyo3 = { version = "~0.25.1", features = ["extension-module"] }
+pyo3 = { version = "~0.25.1", features = ["extension-module", "abi3-py38"] }
 pyo3-async-runtimes = { version = "~0.25.0", features = ["tokio-runtime"] }
 lazy_static = "~1.5.0"
 serde_cbor = "~0.11.2"
