@@ -51,15 +51,15 @@ fn print_cache_size() {
 
 /// Python API no compression
 #[pyfunction]
-fn get_binary_item(_py: Python, name: String) -> PyResult<Bound<PyBytes>> {
+fn get_binary_item(_py: Python, name: String) -> PyResult<Py<PyBytes>> {
     let result = _get_binary_item(&name);
     let buf = result.unwrap_or_else(Vec::new);
-    let bound_bytes = PyBytes::new_bound(_py, &buf);
-    Ok(bound_bytes)
+    let pybytes_bound = PyBytes::new(_py, &buf);
+    Ok(pybytes_bound.unbind())
 }
 
 #[pyfunction]
-fn set_binary_item(_py: Python, name: String, item: &PyBytes) -> PyResult<()> {
+fn set_binary_item(_py: Python, name: String, item: &Bound<'_, PyBytes>) -> PyResult<()> {
     let item_as_bytes = item.as_bytes().to_vec();
     _set_binary_item(name, item_as_bytes)
 }
@@ -79,16 +79,16 @@ fn set_string_item(_py: Python, name: String, item: String) -> PyResult<()> {
 
 /// Python API with compression
 #[pyfunction]
-fn get_binary_item_decompressed(_py: Python, name: String) -> PyResult<Bound<PyBytes>> {
+fn get_binary_item_decompressed(_py: Python, name: String) -> PyResult<Py<PyBytes>> {
     let item = _get_binary_item(&name);
     let buf = item.unwrap_or_else(Vec::new);
     let decompressed_item = decompress(buf.as_slice());
-    let bound_bytes = PyBytes::new_bound(_py, &decompressed_item);
-    Ok(bound_bytes)
+    let pybytes_bound = PyBytes::new(_py, &decompressed_item);
+    Ok(pybytes_bound.unbind())
 }
 
 #[pyfunction]
-fn set_binary_item_compressed(_py: Python, name: String, item: &PyBytes) -> PyResult<()> {
+fn set_binary_item_compressed(_py: Python, name: String, item: &Bound<'_, PyBytes>) -> PyResult<()> {
     let compressed_item = compress(item.as_bytes());
     _set_binary_item(name, compressed_item)
 }

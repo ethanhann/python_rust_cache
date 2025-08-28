@@ -4,10 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-# The name of the native library. This is the name which will be used in Python to import the
-# library (i.e. `import string_sum`). If you change this, you must also change the name of the
-# `#[pymodule]` in `src/lib.rs`.
+# The name of the native library.
+# This is the name which will be used in Python to import the library (i.e. `import string_sum`).
+# If you change this, you must also change the name of the `#[pymodule]` in `src/lib.rs`.
 name = "python_rust_cache"
+#
 # "cdylib" is necessary to produce a shared library for Python to import from.
 #
 # Downstream Rust code (including code in `bin/`, `examples/`, and `tests/`) will not be able
@@ -16,8 +17,11 @@ name = "python_rust_cache"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.21.0-beta.0", features = ["extension-module"] }
+pyo3 = { version = "0.25.1", features = ["extension-module"] }
 lazy_static = "1.4"
 flate2 = "1.0"
 serde_cbor = "0.11.2"
 zstd = "0.13.0"
+
+[package.metadata.pyo3]
+extension-module = true
