@@ -6,6 +6,8 @@ list:
 build:
     maturin develop
     pyo3-stubgen python_rust_cache .
+    echo "__version__: str" >> ./python_rust_cache.pyi
+
 
 lint:
     cargo clippy
@@ -24,4 +26,4 @@ run-fastapi-demo-production:
 
 # Run wrk to load test the API (install wrk with brew if needed)
 load-test-fastapi-demo:
-    wrk -t4 -c40 -d30s http://localhost:8000/
+    wrk -t4 -c40 -d30s http://localhost:8000/get/foo

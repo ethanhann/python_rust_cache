@@ -12,7 +12,7 @@ def get_string_item_decompressed(name):
     ...
 
 def print_cache_size():
-    ...
+    """Python API"""
 
 def set_binary_item(name, item):
     ...
@@ -25,6 +25,4 @@ def set_string_item(name, item):
 
 def set_string_item_compressed(name, item):
     ...
-
-def version():
-    """Python API"""
+__version__: str
