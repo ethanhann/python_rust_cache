@@ -1,7 +1,7 @@
 extern crate core;
 
-pub mod sync_cache;
 pub mod async_cache;
+pub mod sync_cache;
 
 use lazy_static::lazy_static;
 use pyo3::prelude::*;
@@ -33,9 +33,9 @@ fn _get_binary_item(name: &str) -> Option<Vec<u8>> {
 }
 
 fn _set_binary_item(name: String, item: Vec<u8>) -> PyResult<()> {
-    let mut cache = CACHE.lock().map_err(|e| {
-        PyErr::new::<pyo3::exceptions::PyRuntimeError, _>(format!("Mutex error: {}", e))
-    })?;
+    let mut cache = CACHE
+        .lock()
+        .map_err(|e| PyErr::new::<pyo3::exceptions::PyRuntimeError, _>(format!("Mutex error: {}", e)))?;
     cache.insert(name, item);
     Ok(())
 }
@@ -52,10 +52,7 @@ fn print_cache_size() {
 
     let size_in_mb = serialized_map.len() as f64 / (1024.0 * 1024.0);
 
-    println!(
-        "+++ Size of the map in bytes: {} bytes",
-        serialized_map.len()
-    );
+    println!("+++ Size of the map in bytes: {} bytes", serialized_map.len());
     println!("+++ Size of the map in megabytes: {:.2} MB", size_in_mb);
 }
 
@@ -98,11 +95,7 @@ fn get_binary_item_decompressed(_py: Python, name: String) -> PyResult<Py<PyByte
 }
 
 #[pyfunction]
-fn set_binary_item_compressed(
-    _py: Python,
-    name: String,
-    item: &Bound<'_, PyBytes>,
-) -> PyResult<()> {
+fn set_binary_item_compressed(_py: Python, name: String, item: &Bound<'_, PyBytes>) -> PyResult<()> {
     let compressed_item = compress(item.as_bytes());
     _set_binary_item(name, compressed_item)
 }

@@ -16,15 +16,11 @@ impl PyCache {
         if let Some(ttl) = ttl_secs {
             builder = builder.time_to_live(Duration::from_secs(ttl));
         }
-        Self {
-            inner: builder.build(),
-        }
+        Self { inner: builder.build() }
     }
 
     fn get(&self, key: String, py: Python<'_>) -> Option<Py<PyBytes>> {
-        self.inner
-            .get(&key)
-            .map(|bytes| PyBytes::new(py, &bytes).unbind())
+        self.inner.get(&key).map(|bytes| PyBytes::new(py, &bytes).unbind())
     }
 
     fn set(&self, key: String, value: &Bound<'_, PyBytes>) {

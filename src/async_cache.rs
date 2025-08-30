@@ -1,9 +1,9 @@
-use pyo3::Py;
-use std::time::Duration;
 use moka::future::{Cache as AsyncCache, CacheBuilder};
-use pyo3::{pyclass, pymethods, Bound, PyAny, PyResult, Python};
+use pyo3::Py;
 use pyo3::types::{PyBytes, PyBytesMethods};
+use pyo3::{Bound, PyAny, PyResult, Python, pyclass, pymethods};
 use pyo3_async_runtimes::tokio::future_into_py;
+use std::time::Duration;
 
 #[pyclass]
 pub struct PyAsyncCache {
@@ -18,9 +18,7 @@ impl PyAsyncCache {
         if let Some(ttl) = ttl_secs {
             builder = builder.time_to_live(Duration::from_secs(ttl));
         }
-        Self {
-            inner: builder.build(),
-        }
+        Self { inner: builder.build() }
     }
 
     fn get<'a>(&'a self, key: String, py: Python<'a>) -> PyResult<Bound<'a, PyAny>> {
