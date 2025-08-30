@@ -11,8 +11,8 @@ use std::sync::Mutex;
 
 lazy_static! {
     static ref CACHE: Mutex<HashMap<String, Vec<u8>>> = Mutex::new({
-        let map = HashMap::new();
-        map
+        
+        HashMap::new()
     });
 }
 
@@ -60,7 +60,7 @@ fn print_cache_size() {
 #[pyfunction]
 fn get_binary_item(_py: Python, name: String) -> PyResult<Py<PyBytes>> {
     let result = _get_binary_item(&name);
-    let buf = result.unwrap_or_else(Vec::new);
+    let buf = result.unwrap_or_default();
     let pybytes_bound = PyBytes::new(_py, &buf);
     Ok(pybytes_bound.unbind())
 }
@@ -74,7 +74,7 @@ fn set_binary_item(_py: Python, name: String, item: &Bound<'_, PyBytes>) -> PyRe
 #[pyfunction]
 fn get_string_item(_py: Python, name: String) -> PyResult<String> {
     let maybe_bytes_data = _get_binary_item(&name);
-    let bytes_data: Vec<u8> = maybe_bytes_data.unwrap_or_else(Vec::new);
+    let bytes_data: Vec<u8> = maybe_bytes_data.unwrap_or_default();
     let string_data = String::from_utf8(bytes_data).expect("Invalid UTF-8 sequence");
     Ok(string_data)
 }
@@ -88,7 +88,7 @@ fn set_string_item(_py: Python, name: String, item: String) -> PyResult<()> {
 #[pyfunction]
 fn get_binary_item_decompressed(_py: Python, name: String) -> PyResult<Py<PyBytes>> {
     let item = _get_binary_item(&name);
-    let buf = item.unwrap_or_else(Vec::new);
+    let buf = item.unwrap_or_default();
     let decompressed_item = decompress(buf.as_slice());
     let pybytes_bound = PyBytes::new(_py, &decompressed_item);
     Ok(pybytes_bound.unbind())
@@ -103,7 +103,7 @@ fn set_binary_item_compressed(_py: Python, name: String, item: &Bound<'_, PyByte
 #[pyfunction]
 fn get_string_item_decompressed(_py: Python, name: String) -> PyResult<String> {
     let maybe_bytes_data = _get_binary_item(&name);
-    let bytes_data: Vec<u8> = maybe_bytes_data.unwrap_or_else(Vec::new);
+    let bytes_data: Vec<u8> = maybe_bytes_data.unwrap_or_default();
     let decompressed_item = decompress(bytes_data.as_slice());
     let string_data = String::from_utf8(decompressed_item).expect("Invalid UTF-8 sequence");
     Ok(string_data)
