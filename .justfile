@@ -9,8 +9,17 @@ test:
 build:
     maturin develop
 
+clean:
+    cargo clean
+
+format:
+    cargo fmt
+
+fix:
+    cargo clippy --fix
+
 lint:
-    cargo clippy
+    cargo clippy -- -W clippy::all
     ruff check .
 
 sanity-check:
